@@ -1,7 +1,7 @@
 name: device_special_info_plus
 description: "A new Flutter project."
 version: 0.0.1
-homepage:
+homepage: https://github.com/iamvivekpatel98/device_special_info_plus
 
 environment:
   sdk: '>=3.4.0 <4.0.0'
