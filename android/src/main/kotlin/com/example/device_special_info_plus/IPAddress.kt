@@ -2,6 +2,7 @@ package com.example.device_special_info_plus
 import java.net.NetworkInterface
 import java.util.*
 
+
 class IPAddress {
     fun getIPAddress(useIPv4: Boolean): String {
         try {

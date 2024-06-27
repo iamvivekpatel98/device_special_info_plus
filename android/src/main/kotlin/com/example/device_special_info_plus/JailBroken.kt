@@ -5,6 +5,7 @@ import android.provider.Settings
 
 import com.scottyab.rootbeer.RootBeer
 
+
 class JailBroken {
     fun isDevMode(context: Context): Boolean {
         return try {

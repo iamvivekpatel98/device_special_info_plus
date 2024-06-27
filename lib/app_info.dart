@@ -1,3 +1,4 @@
+
 class AppInfo {
   String? name;
   String? packageName;

@@ -97,6 +97,7 @@ abstract class DeviceSpecialInfoPlusPlatform extends PlatformInterface {
     throw UnimplementedError('isJailBroken() has not been implemented.');
   }
 
+
   Future<AndroidCarrierData?> getAndroidSimInfo() {
     throw UnimplementedError('getAndroidSimInfo() has not been implemented.');
   }

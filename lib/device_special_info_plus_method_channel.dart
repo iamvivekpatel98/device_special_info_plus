@@ -140,6 +140,7 @@ class MethodChannelDeviceSpecialInfoPlus extends DeviceSpecialInfoPlusPlatform {
       AndroidCarrierData? androidCarrierData;
       final result = await methodChannel.invokeMethod('getAndroidSimInfo');
       if(result!=null){
+
         androidCarrierData = AndroidCarrierData.fromMap(result??{},);
       }
       return androidCarrierData;

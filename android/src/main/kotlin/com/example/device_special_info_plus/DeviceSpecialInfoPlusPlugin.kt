@@ -28,6 +28,7 @@ import java.lang.reflect.Field
 import java.util.Locale
 
 
+
 /** DeviceSpecialInfoPlusPlugin */
 class DeviceSpecialInfoPlusPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
 

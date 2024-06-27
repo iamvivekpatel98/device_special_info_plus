@@ -64,6 +64,7 @@ class _MyAppState extends State<MyApp> {
               Text('Running on: $_platformVersion\n'),
               TextButton(
                 onPressed: () async {
+
                   // dynamic getInstalledApps = await _deviceSpecialInfoPlusPlugin.getInstalledApps();
                   // dynamic getSerialNumber = await _deviceSpecialInfoPlusPlugin.getSerialNumber();
                   // dynamic getImeiNumber = await _deviceSpecialInfoPlusPlugin.getImeiNumber();

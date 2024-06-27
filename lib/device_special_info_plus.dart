@@ -75,6 +75,7 @@ class DeviceSpecialInfoPlus {
   }
 
   Future<AndroidCarrierData?> getAndroidSimInfo() {
+
     return DeviceSpecialInfoPlusPlatform.instance.getAndroidSimInfo();
   }
 }
