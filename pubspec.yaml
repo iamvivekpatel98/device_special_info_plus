@@ -1,5 +1,5 @@
 name: device_special_info_plus
-description: "A new Flutter project."
+description: "A flutter project for the Android device related information which is necessary for most of the mobile projects targeting Android."
 version: 0.0.1
 homepage: https://github.com/iamvivekpatel98/device_special_info_plus
 
