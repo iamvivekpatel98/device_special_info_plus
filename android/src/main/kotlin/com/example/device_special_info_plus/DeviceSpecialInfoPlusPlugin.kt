@@ -9,6 +9,8 @@ import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Build.VERSION.SDK_INT
 import android.os.Build.VERSION_CODES.P
@@ -25,8 +27,9 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import java.lang.reflect.Field
+import java.net.NetworkInterface
+import java.util.Collections
 import java.util.Locale
-
 
 
 /** DeviceSpecialInfoPlusPlugin */
@@ -67,12 +70,12 @@ class DeviceSpecialInfoPlusPlugin : FlutterPlugin, ActivityAware, MethodCallHand
                 }
             }
         } else if (call.method == "isDataRoamingEnabled") {
-            val isRoaming = isDataRoamingEnabled(applicationContext!!)
+            val isRoaming = applicationContext?.let { isDataRoamingEnabled(it) }
             if (result != null) {
                 result.success(isRoaming)
             }
         } else if (call.method == "getIMEI") {
-            val imeiNumber = getIMEI(applicationContext!!)
+            val imeiNumber = applicationContext?.let { getIMEI(it) }
             if (result != null) {
                 result.success(imeiNumber)
             }
@@ -184,9 +187,13 @@ class DeviceSpecialInfoPlusPlugin : FlutterPlugin, ActivityAware, MethodCallHand
             mDefaultTelephonyManager = applicationContext?.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
             if(mDefaultTelephonyManager!=null){
                 applicationContext?.let {
-                    AndroidSimInfo().getInfo(result,it, mDefaultTelephonyManager!!,);
+                    AndroidSimInfo().getInfo(result, it, mDefaultTelephonyManager!!);
                 }
             }
+        } else if (call.method.equals("getNetworkConnectionType")) {
+            result?.success(applicationContext?.let { getNetworkConnectionType(it) });
+        } else if (call.method.equals("getMacAddress")) {
+            result?.success(getMacAddress());
         } else {
             result.notImplemented()
         }
@@ -347,5 +354,82 @@ class DeviceSpecialInfoPlusPlugin : FlutterPlugin, ActivityAware, MethodCallHand
 
     private fun getDownloadsDirectory(): String {
         return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath
+    }
+
+    private fun getMacAddress(): String {
+        try {
+            val all: List<NetworkInterface> = Collections.list(
+                NetworkInterface.getNetworkInterfaces()
+            )
+            for (nif in all) {
+                if (!nif.name.equals("wlan0", ignoreCase = true)) continue
+
+                val macBytes = nif.hardwareAddress ?: return ""
+
+                val res1 = StringBuilder()
+                for (b in macBytes) {
+                    res1.append(
+                        String.format("%1$2s", Integer.toHexString(b.toInt() and 0xFF))
+                            .replace(' ', '0') +
+                                ":"
+                    )
+                }
+
+                if (res1.isNotEmpty()) {
+                    res1.deleteCharAt(res1.length - 1)
+                }
+                return res1.toString()
+            }
+        } catch (ex: java.lang.Exception) {
+            return ""
+        }
+        return ""
+    }
+
+    private fun getNetworkConnectionType(applicationContext: Context): String {
+        var result = "unknown"
+
+        val cm = applicationContext.getSystemService(
+            Context.CONNECTIVITY_SERVICE
+        ) as ConnectivityManager
+        if (SDK_INT >= Build.VERSION_CODES.M) {
+            if (cm != null) {
+                val capabilities = cm.getNetworkCapabilities(
+                    cm.activeNetwork
+                )
+                if (capabilities != null) {
+                    if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                        result = "Wi-Fi connection"
+                    } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
+                    ) {
+                        result = "Mobile data"
+                    } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_VPN)
+                    ) {
+                        result = "VPN"
+                    }
+                }
+            } else {
+                result = "unknown"
+            }
+        } else {
+            if (cm != null) {
+                val activeNetwork = cm.activeNetworkInfo
+                if (activeNetwork != null) {
+                    // connected to the internet
+                    if (activeNetwork.type == ConnectivityManager.TYPE_WIFI) {
+                        result = "Wi-Fi connection"
+                    } else if (activeNetwork.type == ConnectivityManager.TYPE_MOBILE
+                    ) {
+                        result = "Mobile data"
+                    } else if (activeNetwork.type == ConnectivityManager.TYPE_VPN) {
+                        result = "VPN"
+                    }
+                } else {
+                    result = "unknown"
+                }
+            }
+        }
+
+        return result
     }
 }

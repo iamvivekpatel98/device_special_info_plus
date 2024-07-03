@@ -148,4 +148,16 @@ class MethodChannelDeviceSpecialInfoPlus extends DeviceSpecialInfoPlusPlatform {
       return null;
     }
   }
+
+  @override
+  Future<String> getNetworkConnectionType() async {
+    final result = await methodChannel.invokeMethod('getNetworkConnectionType');
+    return result ?? "";
+  }
+
+  @override
+  Future<String> getMacAddress() async {
+    final result = await methodChannel.invokeMethod('getMacAddress');
+    return result ?? "";
+  }
 }

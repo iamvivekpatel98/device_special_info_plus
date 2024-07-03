@@ -110,6 +110,18 @@ class MockDeviceSpecialInfoPlusPlatform
     // TODO: implement getAndroidSimInfo
     throw UnimplementedError();
   }
+
+  @override
+  Future<String> getMacAddress() {
+    // TODO: implement getMacAddress
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<String> getNetworkConnectionType() {
+    // TODO: implement getNetworkConnectionType
+    throw UnimplementedError();
+  }
 }
 
 void main() {

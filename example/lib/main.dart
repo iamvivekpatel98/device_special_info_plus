@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -81,7 +79,8 @@ class _MyAppState extends State<MyApp> {
                   // dynamic isDevMode = await _deviceSpecialInfoPlusPlugin.isDevMode();
                   // dynamic isJailBroken = await _deviceSpecialInfoPlusPlugin.isJailBroken();
                   // dynamic getAndroidSimInfo = await _deviceSpecialInfoPlusPlugin.getAndroidSimInfo();
-                  // debugPrint("result:: ${getAndroidSimInfo.toString()}");
+                  // dynamic getMacAddress = await _deviceSpecialInfoPlusPlugin.getMacAddress();
+                  // debugPrint("result:: ${getMacAddress}");
                 },
                 child: const Text(
                   "Click Here!",

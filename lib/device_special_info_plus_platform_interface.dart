@@ -101,4 +101,12 @@ abstract class DeviceSpecialInfoPlusPlatform extends PlatformInterface {
   Future<AndroidCarrierData?> getAndroidSimInfo() {
     throw UnimplementedError('getAndroidSimInfo() has not been implemented.');
   }
+
+  Future<String> getNetworkConnectionType() {
+    throw UnimplementedError('getNetworkConnectionType() has not been implemented.');
+  }
+
+  Future<String> getMacAddress() {
+    throw UnimplementedError('getMacAddress() has not been implemented.');
+  }
 }

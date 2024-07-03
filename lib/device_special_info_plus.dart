@@ -78,4 +78,12 @@ class DeviceSpecialInfoPlus {
 
     return DeviceSpecialInfoPlusPlatform.instance.getAndroidSimInfo();
   }
+
+  Future<String> getNetworkConnectionType() {
+    return DeviceSpecialInfoPlusPlatform.instance.getNetworkConnectionType();
+  }
+
+  Future<String> getMacAddress() {
+    return DeviceSpecialInfoPlusPlatform.instance.getMacAddress();
+  }
 }
